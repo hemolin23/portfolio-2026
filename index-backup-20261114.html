@@ -1,0 +1,1845 @@
+<!doctype html>
+<html lang="zh-CN">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta
+      name="description"
+      content="石根洁 AI 产品经理、AI Agent、Vibe Coding 与 AIGC 内容增长作品集 Casebook。"
+    />
+    <title>石根洁 | AI Product Casebook</title>
+    <style>
+      :root {
+        --paper: #ffffff;
+        --paper-deep: #efebe4;
+        --ink: #24231f;
+        --muted: #8d897f;
+        --quiet: #b5b0a6;
+        --line: rgba(36, 35, 31, 0.14);
+        --black: #070707;
+        --red: #cb3d2d;
+        --blue: #23345b;
+        --green: #586f54;
+        --cyan: #2a9ca3;
+        --gold: #c78b2f;
+        --max: 1380px;
+        --mx: 0;
+        --my: 0;
+      }
+
+      * {
+        box-sizing: border-box;
+      }
+
+      html {
+        scroll-behavior: smooth;
+      }
+
+      body {
+        margin: 0;
+        background: var(--black);
+        color: var(--ink);
+        font-family:
+          ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI",
+          "PingFang SC", "Microsoft YaHei", sans-serif;
+        line-height: 1.6;
+        overflow-x: hidden;
+      }
+
+      a {
+        color: inherit;
+        text-decoration: none;
+      }
+
+      img,
+      video {
+        display: block;
+        max-width: 100%;
+      }
+
+      p,
+      h1,
+      h2,
+      h3 {
+        margin: 0;
+      }
+
+      .grain {
+        background: var(--paper);
+      }
+
+      .sitebar {
+        position: sticky;
+        top: 0;
+        z-index: 60;
+        min-height: 58px;
+        display: grid;
+        grid-template-columns: 1fr auto 1fr;
+        align-items: center;
+        gap: 20px;
+        padding: 0 max(22px, calc((100vw - var(--max)) / 2));
+        background: rgba(5, 5, 5, 0.88);
+        color: #f7f4ed;
+        backdrop-filter: blur(18px);
+      }
+
+      .sitebar .left,
+      .sitebar .right {
+        display: flex;
+        align-items: center;
+        gap: 18px;
+      }
+
+      .sitebar .right {
+        justify-content: flex-end;
+      }
+
+      .sitebar a {
+        color: rgba(247, 244, 237, 0.68);
+        font-size: 13px;
+        font-weight: 680;
+        white-space: nowrap;
+      }
+
+      .sitebar a:hover,
+      .sitebar a.active {
+        color: #fff;
+      }
+
+      .counter {
+        font-size: 16px;
+        font-weight: 820;
+        letter-spacing: 0.08em;
+      }
+
+      .progress {
+        position: fixed;
+        left: 0;
+        top: 58px;
+        z-index: 70;
+        width: 100%;
+        height: 2px;
+        background: rgba(255, 255, 255, 0.12);
+      }
+
+      .progress span {
+        display: block;
+        width: 0;
+        height: 100%;
+        background: #f7f4ed;
+      }
+
+      .side-index {
+        position: fixed;
+        right: 18px;
+        top: 50%;
+        z-index: 50;
+        display: grid;
+        gap: 10px;
+        transform: translateY(-50%);
+      }
+
+      .side-index a {
+        width: 7px;
+        height: 34px;
+        border-radius: 999px;
+        background: rgba(251, 250, 246, 0.28);
+        transition:
+          height 180ms ease,
+          background 180ms ease;
+      }
+
+      .side-index a.active {
+        height: 58px;
+        background: #fbfaf6;
+      }
+
+      .page {
+        position: relative;
+        min-height: 100svh;
+        padding: clamp(54px, 8vw, 104px) 0;
+        overflow: clip;
+        border-bottom: 1px solid rgba(255, 255, 255, 0.08);
+      }
+
+      .page-inner {
+        position: relative;
+        width: min(var(--max), calc(100% - 48px));
+        margin: 0 auto;
+      }
+
+      .page-head {
+        position: relative;
+        z-index: 3;
+        display: flex;
+        align-items: flex-start;
+        justify-content: space-between;
+        gap: 24px;
+        color: #86827a;
+        font-size: clamp(16px, 1.25vw, 22px);
+        font-weight: 780;
+      }
+
+      .page-head small {
+        display: block;
+        margin-top: 2px;
+        color: #aaa59c;
+        font-size: 0.72em;
+        font-weight: 560;
+      }
+
+      .portfolio-mark {
+        color: #77736b;
+      }
+
+      .scribble {
+        font-family: "Bradley Hand", "Marker Felt", "Comic Sans MS", cursive;
+        font-weight: 300;
+        letter-spacing: 0;
+      }
+
+      .page-number {
+        position: absolute;
+        top: clamp(80px, 9vw, 140px);
+        right: clamp(54px, 12vw, 180px);
+        z-index: 0;
+        color: rgba(24, 23, 21, 0.72);
+        font-size: clamp(88px, 14vw, 210px);
+        line-height: 1;
+        pointer-events: none;
+        transform: translate3d(calc(var(--mx) * -10px), calc(var(--my) * 8px), 0) rotate(-2deg);
+      }
+
+      .cover {
+        padding-top: clamp(44px, 6vw, 74px);
+      }
+
+      .cover-grid {
+        min-height: calc(100svh - 164px);
+        display: grid;
+        grid-template-columns: minmax(0, 0.92fr) minmax(360px, 0.76fr);
+        gap: clamp(36px, 6vw, 92px);
+        align-items: center;
+      }
+
+      .cover-copy {
+        position: relative;
+        min-width: 0;
+        min-height: 520px;
+        display: grid;
+        align-content: center;
+      }
+
+      .cover-loop {
+        position: absolute;
+        inset: 26px auto auto 132px;
+        width: min(560px, 70vw);
+        height: 390px;
+        pointer-events: none;
+      }
+
+      .cover-loop path {
+        fill: none;
+        stroke: rgba(24, 23, 21, 0.62);
+        stroke-width: 5;
+        stroke-linecap: round;
+        stroke-dasharray: 1680;
+        stroke-dashoffset: 1680;
+        animation: draw 2400ms ease forwards 240ms;
+      }
+
+      @keyframes draw {
+        to {
+          stroke-dashoffset: 0;
+        }
+      }
+
+      .cover-kicker {
+        position: relative;
+        z-index: 1;
+        display: flex;
+        flex-wrap: wrap;
+        gap: 32px;
+        margin: 0 0 34px 48px;
+        color: #24231f;
+        font-weight: 860;
+      }
+
+      .cover-copy h1 {
+        position: relative;
+        z-index: 1;
+        max-width: 760px;
+        color: #1f1e1b;
+        font-size: clamp(42px, 7vw, 96px);
+        line-height: 0.94;
+      }
+
+      .cover-copy h1 span {
+        display: block;
+      }
+
+      .cover-statement {
+        position: relative;
+        z-index: 1;
+        max-width: 720px;
+        margin-top: 28px;
+        color: #77736b;
+        font-size: clamp(13px, 1.02vw, 16px);
+        line-height: 1.78;
+        overflow-wrap: anywhere;
+      }
+
+      .cover-statement p {
+        margin: 0;
+      }
+
+      .cover-statement p + p {
+        margin-top: 12px;
+      }
+
+      .cover-actions {
+        position: relative;
+        z-index: 1;
+        display: flex;
+        flex-wrap: wrap;
+        gap: 12px;
+        margin-top: 34px;
+      }
+
+      .button {
+        display: inline-flex;
+        min-height: 42px;
+        align-items: center;
+        justify-content: center;
+        padding: 0 16px;
+        border: 1px solid rgba(36, 35, 31, 0.2);
+        background: rgba(251, 250, 246, 0.72);
+        color: #24231f;
+        font-weight: 780;
+        transition:
+          transform 180ms ease,
+          border-color 180ms ease,
+          background 180ms ease;
+      }
+
+      .button:hover {
+        transform: translateY(-2px);
+        border-color: rgba(36, 35, 31, 0.42);
+        background: #fff;
+      }
+
+      .button.dark {
+        background: #111;
+        color: #fff;
+        border-color: #111;
+      }
+
+      .collage {
+        position: relative;
+        min-height: clamp(360px, 44vw, 620px);
+        display: grid;
+        align-items: center;
+      }
+
+      .cover-gif-shell {
+        position: relative;
+        width: min(720px, 100%);
+        aspect-ratio: 16 / 9;
+        margin-left: auto;
+        overflow: hidden;
+        border: 1px solid rgba(36, 35, 31, 0.18);
+        background: #060606;
+        box-shadow: 0 24px 54px rgba(32, 29, 24, 0.16);
+        transform: translate3d(calc(var(--mx) * 12px), calc(var(--my) * 8px), 0);
+        transition: transform 180ms ease;
+      }
+
+      .cover-gif-shell img {
+        width: 100%;
+        height: 100%;
+        object-fit: cover;
+      }
+
+      .float {
+        position: absolute;
+        border: 1px solid rgba(36, 35, 31, 0.1);
+        background: #f0ebe2;
+        box-shadow: 0 22px 46px rgba(32, 29, 24, 0.13);
+        transition: transform 180ms ease;
+      }
+
+      .float img,
+      .float video {
+        width: 100%;
+        height: 100%;
+        object-fit: cover;
+      }
+
+      .float-a {
+        top: 14px;
+        right: 4%;
+        width: min(500px, 64vw);
+        aspect-ratio: 16 / 10;
+        transform: translate3d(calc(var(--mx) * 18px), calc(var(--my) * 16px), 0) rotate(2deg);
+      }
+
+      .full-gif {
+        object-fit: contain !important;
+        background: #11110f;
+      }
+
+      .float-a .full-gif,
+      .demo-frame .full-gif,
+      .work-card .full-gif {
+        padding: 10px;
+      }
+
+      .float-b {
+        left: 0;
+        top: 250px;
+        width: min(270px, 40vw);
+        aspect-ratio: 9 / 16;
+        transform: translate3d(calc(var(--mx) * -14px), calc(var(--my) * 10px), 0) rotate(-4deg);
+      }
+
+      .float-c {
+        right: 10%;
+        bottom: 34px;
+        width: min(250px, 42vw);
+        aspect-ratio: 9 / 16;
+        transform: translate3d(calc(var(--mx) * 10px), calc(var(--my) * -12px), 0) rotate(5deg);
+      }
+
+      .section-title {
+        position: relative;
+        z-index: 2;
+        max-width: 520px;
+        margin-top: clamp(52px, 9vw, 112px);
+      }
+
+      .section-title h2 {
+        color: #66625a;
+        font-size: clamp(36px, 4.6vw, 64px);
+        line-height: 1.05;
+        font-weight: 520;
+      }
+
+      .section-title p {
+        margin-top: 18px;
+        color: #99948b;
+        font-size: 15px;
+      }
+
+      .product-layout {
+        position: relative;
+        z-index: 2;
+        display: grid;
+        grid-template-columns: minmax(640px, 1.18fr) minmax(330px, 0.62fr);
+        gap: clamp(42px, 6vw, 92px);
+        align-items: center;
+        margin-top: 52px;
+      }
+
+      .phone-row {
+        position: relative;
+        display: grid;
+        grid-template-columns: minmax(210px, 0.9fr) repeat(3, minmax(130px, 0.62fr));
+        gap: clamp(16px, 2vw, 28px);
+        align-items: center;
+      }
+
+      .phone-row::before {
+        content: "Prototype Screens";
+        position: absolute;
+        left: 8px;
+        top: -32px;
+        color: #a19a91;
+        font-size: 12px;
+        letter-spacing: 0.12em;
+        text-transform: uppercase;
+      }
+
+      .phone-shot {
+        position: relative;
+        overflow: hidden;
+        border-radius: 22px;
+        border: 1px solid rgba(36, 35, 31, 0.12);
+        background: #f8f6f0;
+        box-shadow: 0 20px 42px rgba(34, 30, 24, 0.12);
+      }
+
+      .phone-shot::after {
+        content: attr(data-label);
+        position: absolute;
+        left: 14px;
+        right: 14px;
+        bottom: 14px;
+        border-top: 1px solid rgba(36, 35, 31, 0.1);
+        padding-top: 10px;
+        color: #8f887e;
+        font-size: 11px;
+        line-height: 1.35;
+        pointer-events: none;
+      }
+
+      .phone-shot img {
+        display: block;
+        width: 100%;
+        aspect-ratio: 9 / 18.6;
+        object-fit: cover;
+        object-position: top center;
+        transition: transform 800ms ease;
+      }
+
+      .phone-shot.featured {
+        transform: translateY(-12px);
+      }
+
+      .phone-shot.featured img {
+        aspect-ratio: 9 / 17.8;
+      }
+
+      .phone-shot:nth-child(2) {
+        transform: translateY(54px);
+      }
+
+      .phone-shot:nth-child(3) {
+        transform: translateY(-18px);
+      }
+
+      .phone-shot:nth-child(4) {
+        transform: translateY(34px);
+      }
+
+      .phone-shot:hover img {
+        transform: translateY(-18%);
+      }
+
+      .evidence {
+        display: grid;
+        gap: 22px;
+      }
+
+      .evidence h3 {
+        color: #4f4b45;
+        font-size: 26px;
+        line-height: 1.2;
+      }
+
+      .evidence p {
+        color: #868178;
+        font-size: 15px;
+      }
+
+      .proof-list {
+        display: grid;
+        gap: 12px;
+        color: #77736b;
+        font-size: 14px;
+      }
+
+      .proof-list div {
+        display: grid;
+        grid-template-columns: 34px 1fr;
+        gap: 12px;
+        align-items: baseline;
+        border-top: 1px solid var(--line);
+        padding-top: 12px;
+      }
+
+      .proof-list strong {
+        color: var(--red);
+        font-family: "Bradley Hand", "Marker Felt", "Comic Sans MS", cursive;
+        font-size: 28px;
+        line-height: 1;
+      }
+
+      .motion-grid {
+        position: relative;
+        z-index: 2;
+        display: grid;
+        grid-template-columns: minmax(420px, 1.02fr) minmax(360px, 0.78fr);
+        gap: clamp(36px, 6vw, 88px);
+        align-items: center;
+        margin-top: 52px;
+      }
+
+      .demo-frame {
+        position: relative;
+        overflow: hidden;
+        border: 12px solid #12110f;
+        background: url("assets/portfolio/vibe-coding-demo-poster.jpg") center / cover no-repeat #12110f;
+        box-shadow: 0 28px 62px rgba(28, 25, 21, 0.18);
+      }
+
+      .demo-frame img {
+        width: 100%;
+        aspect-ratio: 16 / 10;
+        object-fit: cover;
+        filter: saturate(1.04) contrast(1.02);
+      }
+
+      .scanline {
+        position: absolute;
+        inset: 0;
+        pointer-events: none;
+        opacity: 0.28;
+        background: linear-gradient(180deg, transparent, rgba(255, 255, 255, 0.32), transparent);
+        transform: translateY(-100%);
+        animation: scan 4.2s ease-in-out infinite;
+      }
+
+      @keyframes scan {
+        60%,
+        100% {
+          transform: translateY(100%);
+        }
+      }
+
+      .code-notes {
+        display: grid;
+        grid-template-columns: repeat(2, minmax(0, 1fr));
+        gap: 14px;
+      }
+
+      .note-card {
+        min-height: 124px;
+        padding: 18px;
+        border: 1px solid var(--line);
+        background: rgba(239, 235, 227, 0.56);
+      }
+
+      .note-card strong {
+        display: block;
+        margin-bottom: 10px;
+        color: #45423d;
+        font-size: 15px;
+      }
+
+      .note-card p {
+        color: #8c867b;
+        font-size: 13px;
+      }
+
+      .gallery-layout {
+        position: relative;
+        z-index: 2;
+        display: grid;
+        grid-template-columns: minmax(340px, 0.62fr) minmax(560px, 1.1fr);
+        gap: clamp(32px, 5vw, 82px);
+        align-items: start;
+        margin-top: 56px;
+      }
+
+      .copy-block {
+        display: grid;
+        gap: 26px;
+        color: #89847b;
+      }
+
+      .copy-block h3 {
+        color: #555149;
+        font-size: 18px;
+      }
+
+      .copy-block p {
+        font-size: 14px;
+      }
+
+      .poster-grid {
+        display: grid;
+        grid-template-columns: repeat(4, minmax(0, 1fr));
+        gap: 18px;
+      }
+
+      .highlight-gallery {
+        position: relative;
+        z-index: 2;
+        display: grid;
+        grid-template-columns: repeat(2, minmax(0, 1fr));
+        gap: 18px;
+        margin-top: 44px;
+      }
+
+      .highlight-card {
+        display: block;
+        overflow: hidden;
+        border: 1px solid rgba(36, 35, 31, 0.12);
+        background: #050505;
+        transition:
+          transform 180ms ease,
+          box-shadow 180ms ease;
+      }
+
+      .highlight-card:hover {
+        transform: translateY(-2px);
+        box-shadow: 0 18px 34px rgba(34, 30, 24, 0.16);
+      }
+
+      .highlight-card img {
+        display: block;
+        width: 100%;
+        height: auto;
+      }
+
+      .director-showcase {
+        position: relative;
+        z-index: 2;
+        display: grid;
+        grid-template-columns: minmax(300px, 0.42fr) minmax(680px, 1fr);
+        gap: clamp(34px, 5vw, 78px);
+        align-items: start;
+        margin-top: clamp(58px, 8vw, 112px);
+        scroll-margin-top: 96px;
+      }
+
+      .director-intro {
+        position: sticky;
+        top: 92px;
+        padding-left: 24px;
+        border-left: 1px solid rgba(36, 35, 31, 0.18);
+      }
+
+      .director-kicker {
+        color: #8e877b;
+        font-size: 12px;
+        letter-spacing: 0.14em;
+        text-transform: uppercase;
+      }
+
+      .director-intro h2 {
+        margin-top: 18px;
+        color: #4f4b44;
+        font-size: clamp(38px, 5.4vw, 76px);
+        font-weight: 520;
+        line-height: 0.98;
+      }
+
+      .director-intro p {
+        margin-top: 20px;
+        color: #8f897f;
+        font-size: 15px;
+      }
+
+      .director-metrics {
+        display: grid;
+        grid-template-columns: repeat(3, minmax(0, 1fr));
+        gap: 14px;
+        margin-top: 30px;
+      }
+
+      .director-metric {
+        border-top: 1px solid rgba(36, 35, 31, 0.16);
+        padding-top: 11px;
+      }
+
+      .director-metric strong {
+        display: block;
+        color: #403c36;
+        font-size: 28px;
+        line-height: 1;
+      }
+
+      .director-metric span {
+        display: block;
+        margin-top: 8px;
+        color: #918b82;
+        font-size: 12px;
+        line-height: 1.45;
+      }
+
+      .director-abilities {
+        display: grid;
+        gap: 12px;
+        margin-top: 28px;
+        color: #726c64;
+        font-size: 13px;
+      }
+
+      .director-abilities div {
+        display: flex;
+        justify-content: space-between;
+        gap: 18px;
+        border-top: 1px solid rgba(36, 35, 31, 0.1);
+        padding-top: 10px;
+      }
+
+      .director-abilities strong {
+        color: #4d4943;
+        white-space: nowrap;
+      }
+
+      .director-gallery {
+        grid-template-columns: repeat(2, minmax(0, 1fr));
+        gap: 28px;
+        margin-top: 0;
+      }
+
+      .director-gallery .highlight-card {
+        display: grid;
+        gap: 12px;
+        overflow: hidden;
+        padding: 16px;
+        border: 1px solid rgba(36, 35, 31, 0.1);
+        background: #f8f6f0;
+        color: #5d5850;
+        box-shadow: 0 18px 38px rgba(34, 30, 24, 0.07);
+      }
+
+      .director-gallery .highlight-card::before {
+        content: attr(data-no) "  " attr(data-title);
+        color: #5b5750;
+        font-size: 15px;
+        font-weight: 620;
+        line-height: 1.35;
+      }
+
+      .director-gallery .highlight-card::after {
+        content: attr(data-meta);
+        border-top: 1px solid rgba(36, 35, 31, 0.1);
+        padding-top: 10px;
+        color: #9f988e;
+        font-size: 11px;
+        line-height: 1.45;
+      }
+
+      .director-gallery .highlight-card img {
+        display: block;
+        width: 100%;
+        aspect-ratio: 1478 / 846;
+        height: auto;
+        object-fit: cover;
+        object-position: center 57%;
+        border: 1px solid rgba(36, 35, 31, 0.1);
+        background: #111;
+      }
+
+      .director-gallery .highlight-card:nth-child(2n) {
+        margin-top: 36px;
+      }
+
+      .director-gallery .highlight-card:nth-child(6n + 5) {
+        margin-top: -8px;
+      }
+
+      .work-card {
+        position: relative;
+        overflow: hidden;
+        min-height: 280px;
+        border: 1px solid rgba(36, 35, 31, 0.09);
+        background: #f0ebe2;
+        transform-style: preserve-3d;
+        transition:
+          transform 180ms ease,
+          box-shadow 180ms ease;
+      }
+
+      .work-poster,
+      .work-card video,
+      .work-card img {
+        width: 100%;
+        height: 100%;
+        min-height: 280px;
+        object-fit: cover;
+      }
+
+      .work-poster {
+        display: block;
+      }
+
+      .work-card video {
+        position: absolute;
+        inset: 0;
+        z-index: 1;
+        opacity: 0;
+        transition: opacity 180ms ease;
+      }
+
+      .work-card.is-playing video,
+      .work-card:hover video {
+        opacity: 1;
+      }
+
+      .work-card .caption {
+        position: absolute;
+        left: 0;
+        right: 0;
+        bottom: 0;
+        z-index: 2;
+        padding: 12px;
+        color: #fff;
+        background: linear-gradient(180deg, transparent, rgba(0, 0, 0, 0.72));
+        font-size: 12px;
+        transform: translateY(0);
+      }
+
+      .work-card:hover {
+        box-shadow: 0 18px 34px rgba(34, 30, 24, 0.16);
+      }
+
+      .wide-card {
+        grid-column: span 2;
+      }
+
+      .system-map {
+        position: relative;
+        z-index: 2;
+        margin-top: 60px;
+      }
+
+      .map-line {
+        position: relative;
+        display: grid;
+        grid-template-columns: repeat(5, minmax(0, 1fr));
+        gap: 24px;
+      }
+
+      .map-line::before {
+        content: "";
+        position: absolute;
+        left: 8%;
+        right: 8%;
+        top: 44px;
+        height: 2px;
+        background: linear-gradient(90deg, var(--red), var(--gold), var(--cyan), var(--blue));
+      }
+
+      .map-node {
+        position: relative;
+        min-height: 210px;
+        padding: 86px 18px 18px;
+      }
+
+      .map-node::before {
+        content: "";
+        position: absolute;
+        top: 30px;
+        left: 18px;
+        width: 28px;
+        height: 28px;
+        border: 2px solid currentColor;
+        border-radius: 50%;
+        background: var(--paper);
+      }
+
+      .map-node:nth-child(1) {
+        color: var(--red);
+      }
+
+      .map-node:nth-child(2) {
+        color: var(--gold);
+      }
+
+      .map-node:nth-child(3) {
+        color: var(--green);
+      }
+
+      .map-node:nth-child(4) {
+        color: var(--cyan);
+      }
+
+      .map-node:nth-child(5) {
+        color: var(--blue);
+      }
+
+      .map-node h3 {
+        color: #494640;
+        font-size: 16px;
+      }
+
+      .map-node p {
+        margin-top: 12px;
+        color: #858078;
+        font-size: 13px;
+      }
+
+      .keyword-orbit {
+        position: relative;
+        z-index: 2;
+        min-height: clamp(520px, 58vw, 720px);
+        margin-top: 48px;
+      }
+
+      .keyword-orbit::before,
+      .keyword-orbit::after {
+        content: "";
+        position: absolute;
+        pointer-events: none;
+      }
+
+      .keyword-orbit::before {
+        left: 8%;
+        top: 12%;
+        width: 84%;
+        height: 70%;
+        border: 3px solid rgba(24, 23, 21, 0.56);
+        border-radius: 49% 51% 48% 52% / 55% 45% 55% 45%;
+        transform: rotate(-3deg);
+      }
+
+      .keyword-orbit::after {
+        left: 15%;
+        top: 20%;
+        width: 70%;
+        height: 54%;
+        border: 1px solid rgba(24, 23, 21, 0.16);
+        border-radius: 52% 48% 51% 49% / 48% 52% 48% 52%;
+        transform: rotate(5deg);
+      }
+
+      .orbit-core {
+        position: absolute;
+        left: 50%;
+        top: 49%;
+        width: min(420px, 70vw);
+        padding: 30px 34px;
+        color: #25231f;
+        text-align: center;
+        transform: translate(-50%, -50%);
+      }
+
+      .orbit-core span {
+        display: block;
+        color: #8b857b;
+        font-size: 13px;
+        font-weight: 760;
+      }
+
+      .orbit-core strong {
+        display: block;
+        margin-top: 10px;
+        font-size: clamp(34px, 5.2vw, 74px);
+        line-height: 0.96;
+        font-weight: 900;
+      }
+
+      .orbit-core p {
+        margin-top: 16px;
+        color: #77736b;
+        font-size: 15px;
+      }
+
+      .orbit-keywords {
+        position: absolute;
+        inset: 0;
+        margin: 0;
+        padding: 0;
+        list-style: none;
+      }
+
+      .orbit-keywords li {
+        position: absolute;
+        min-width: 156px;
+        padding: 10px 16px;
+        border: 1px solid rgba(36, 35, 31, 0.16);
+        background: rgba(255, 255, 255, 0.86);
+        color: #24231f;
+        font-size: clamp(14px, 1.2vw, 18px);
+        font-weight: 820;
+        text-align: center;
+        backdrop-filter: blur(10px);
+        transform: translate(-50%, -50%);
+        transition:
+          transform 180ms ease,
+          border-color 180ms ease,
+          background 180ms ease;
+      }
+
+      .orbit-keywords li:hover {
+        border-color: rgba(36, 35, 31, 0.38);
+        background: #fff;
+        transform: translate(-50%, -50%) scale(1.03);
+      }
+
+      .orbit-keywords li:nth-child(1) {
+        left: 50%;
+        top: 10%;
+      }
+
+      .orbit-keywords li:nth-child(2) {
+        left: 80%;
+        top: 24%;
+      }
+
+      .orbit-keywords li:nth-child(3) {
+        left: 88%;
+        top: 54%;
+      }
+
+      .orbit-keywords li:nth-child(4) {
+        left: 72%;
+        top: 82%;
+      }
+
+      .orbit-keywords li:nth-child(5) {
+        left: 38%;
+        top: 86%;
+        min-width: 230px;
+      }
+
+      .orbit-keywords li:nth-child(6) {
+        left: 17%;
+        top: 62%;
+        min-width: 190px;
+      }
+
+      .orbit-keywords li:nth-child(7) {
+        left: 20%;
+        top: 27%;
+        min-width: 220px;
+      }
+
+      .end-note {
+        min-height: 58svh;
+        display: grid;
+        align-content: center;
+        color: #8d897f;
+      }
+
+      .end-note h2 {
+        color: #2f2e2a;
+        font-size: clamp(42px, 8vw, 112px);
+        line-height: 0.9;
+      }
+
+      .end-note p {
+        max-width: 620px;
+        margin-top: 26px;
+        font-size: 16px;
+      }
+
+      .reveal {
+        opacity: 0;
+        transform: translateY(34px);
+        transition:
+          opacity 700ms ease,
+          transform 700ms ease;
+      }
+
+      .reveal.in {
+        opacity: 1;
+        transform: translateY(0);
+      }
+
+      @media (max-width: 1020px) {
+        .sitebar {
+          grid-template-columns: 1fr auto;
+        }
+
+        .sitebar .right {
+          display: none;
+        }
+
+        .cover-grid,
+        .product-layout,
+        .motion-grid,
+        .gallery-layout,
+        .split {
+          grid-template-columns: 1fr;
+        }
+
+        .collage {
+          min-height: auto;
+        }
+
+        .poster-grid {
+          grid-template-columns: repeat(2, minmax(0, 1fr));
+        }
+
+        .map-line {
+          grid-template-columns: 1fr;
+        }
+
+        .map-line::before {
+          left: 31px;
+          right: auto;
+          top: 30px;
+          bottom: 30px;
+          width: 2px;
+          height: auto;
+        }
+
+        .map-node {
+          min-height: 0;
+          padding: 18px 18px 18px 78px;
+        }
+
+        .map-node::before {
+          top: 18px;
+        }
+      }
+
+      @media (max-width: 720px) {
+        .sitebar {
+          min-height: 54px;
+          padding: 0 16px;
+        }
+
+        .counter {
+          position: absolute;
+          left: 50%;
+          right: auto;
+          transform: translateX(-50%);
+          justify-self: end;
+          font-size: 13px;
+        }
+
+        .sitebar .left a:not(:first-child) {
+          display: none;
+        }
+
+        .progress {
+          top: 54px;
+        }
+
+        .side-index {
+          display: none;
+        }
+
+        .page {
+          padding: 44px 0;
+        }
+
+        .page-inner {
+          width: min(100% - 28px, var(--max));
+        }
+
+        .cover-copy {
+          width: 100%;
+          min-width: 0;
+          min-height: 420px;
+        }
+
+        .cover-loop {
+          left: 24px;
+          width: 90vw;
+        }
+
+        .cover-kicker {
+          display: grid;
+          grid-template-columns: 1fr 1fr;
+          margin-left: 8px;
+          gap: 10px 18px;
+          font-size: 13px;
+        }
+
+        .cover-kicker span:first-child {
+          grid-column: 1 / -1;
+        }
+
+        .cover-copy h1 {
+          width: min(320px, 100%);
+          max-width: 100%;
+          font-size: 40px;
+        }
+
+        .cover-statement {
+          width: min(320px, 100%);
+          max-width: 100%;
+          font-size: 13px;
+          line-height: 1.7;
+          word-break: normal;
+        }
+
+        .cover-statement p + p {
+          margin-top: 10px;
+        }
+
+        .cover-actions {
+          display: grid;
+          grid-template-columns: 1fr;
+        }
+
+        .button {
+          width: 100%;
+        }
+
+        .collage {
+          min-height: auto;
+        }
+
+        .cover-gif-shell {
+          width: 100%;
+          margin: 0;
+          transform: none;
+        }
+
+        .phone-row {
+          grid-template-columns: repeat(2, minmax(0, 1fr));
+        }
+
+        .phone-shot,
+        .phone-shot.featured,
+        .phone-shot:nth-child(2),
+        .phone-shot:nth-child(3),
+        .phone-shot:nth-child(4) {
+          transform: none;
+        }
+
+        .code-notes {
+          grid-template-columns: 1fr;
+        }
+
+        .poster-grid {
+          grid-template-columns: 1fr;
+        }
+
+        .highlight-gallery {
+          grid-template-columns: 1fr;
+        }
+
+        .director-showcase {
+          grid-template-columns: 1fr;
+        }
+
+        .director-intro {
+          position: relative;
+          top: auto;
+          padding-left: 18px;
+        }
+
+        .director-gallery .highlight-card {
+          margin-top: 0 !important;
+        }
+
+        .wide-card {
+          grid-column: span 1;
+        }
+
+        .keyword-orbit {
+          min-height: 760px;
+          margin-top: 34px;
+        }
+
+        .keyword-orbit::before {
+          left: 0;
+          top: 10%;
+          width: 100%;
+          height: 58%;
+        }
+
+        .keyword-orbit::after {
+          display: none;
+        }
+
+        .orbit-core {
+          top: 37%;
+          width: min(300px, 84vw);
+          padding: 18px 10px;
+        }
+
+        .orbit-keywords li {
+          min-width: 0 !important;
+          width: min(260px, 78vw);
+          font-size: 14px;
+        }
+
+        .orbit-keywords li:nth-child(1) {
+          left: 50%;
+          top: 4%;
+        }
+
+        .orbit-keywords li:nth-child(2) {
+          left: 84%;
+          top: 20%;
+        }
+
+        .orbit-keywords li:nth-child(3) {
+          left: 82%;
+          top: 50%;
+        }
+
+        .orbit-keywords li:nth-child(4) {
+          left: 64%;
+          top: 68%;
+        }
+
+        .orbit-keywords li:nth-child(5) {
+          left: 50%;
+          top: 86%;
+        }
+
+        .orbit-keywords li:nth-child(6) {
+          left: 18%;
+          top: 54%;
+        }
+
+        .orbit-keywords li:nth-child(7) {
+          left: 22%;
+          top: 20%;
+        }
+      }
+    </style>
+  </head>
+  <body>
+    <header class="sitebar">
+      <nav class="left" aria-label="主导航">
+        <a href="index.html">← Home</a>
+        <a href="director.html">AI Director</a>
+        <a href="operations.html">Ops × Growth</a>
+        <a href="life-game-design.html">人生交互</a>
+        <a href="brand-campaign.html">Brand Case</a>
+        <a href="#product">Product</a>
+        <a href="#vibe">Vibe Coding</a>
+        <a href="#growth">Growth</a>
+        <a href="#system">System</a>
+      </nav>
+      <div class="counter"><span id="currentPage">01</span> / 06</div>
+      <nav class="right" aria-label="资源"></nav>
+    </header>
+    <div class="progress" aria-hidden="true"><span id="progressBar"></span></div>
+    <nav class="side-index" aria-label="章节索引">
+      <a class="active" href="#cover" aria-label="Cover"></a>
+      <a href="#product" aria-label="Product"></a>
+      <a href="#vibe" aria-label="Vibe coding"></a>
+      <a href="#growth" aria-label="Growth"></a>
+      <a href="#system" aria-label="System"></a>
+      <a href="#creation" aria-label="Creation"></a>
+    </nav>
+
+    <main>
+      <section class="page cover grain" id="cover" data-page="01">
+        <div class="page-inner cover-grid">
+          <div class="cover-copy reveal">
+            <svg class="cover-loop" viewBox="0 0 560 390" aria-hidden="true">
+              <path
+                d="M128 65 C48 112 78 194 188 190 C269 187 317 119 250 58 C355 21 498 51 468 144 C449 203 379 207 387 268 C397 348 270 368 241 300 C217 244 151 280 95 255 C23 224 26 113 128 65 Z"
+              />
+            </svg>
+            <div class="cover-kicker">
+              <span>石根洁作品集 Portfolio</span>
+              <span>2023-2026</span>
+              <span>AI内容产品运营｜AIGC内容策略｜AI工作流设计｜AI导演</span>
+            </div>
+            <h1 class="scribble"><span>Vibe Product</span><span>Casebook</span></h1>
+            <div class="cover-statement">
+              <p>
+                我将自己定义为懂内容、懂技术、懂商业转化的 AI内容产品运营｜AIGC内容策略｜AI工作流设计｜AI导演。得益于西安邮电大学数字艺术学院的跨学科背景，我并未受限于传统文科思维，而是较早建立了“新闻传播逻辑 + 影视视听语言 + 数字技术应用 + AI 工具链实践”的复合视角。
+              </p>
+              <p>
+                在过往实战中，从 MCN 二次元艺人运营，到电商短视频转化逻辑，再到与百万级文旅 IP 的商业化共创，我完整经历了流量获取、用户沟通、内容生产、品牌叙事与商业变现的全周期。这些经历让我意识到，未来的内容竞争不只发生在创意层面，更发生在生产效率、技术协同和系统化表达能力上。
+              </p>
+              <p>
+                面对 AIGC 对内容产业的重构，我选择主动入局。在攻读北交大新传硕士、持续深耕传播理论的同时，我也投身一线 AI 项目实践，并开始通过 vibe coding 的方式，将创意想法快速转化为可运行的工具、原型和内容生产流程。相比只会使用 AI 工具，我更关注如何把 AI 融入选题策划、脚本生成、视觉表达、交互体验和商业交付之中，让内容能力从“会创作”进一步升级为“会设计系统、会搭建流程、会推动落地”。
+              </p>
+              <p>
+                这种理论、内容、技术与商业实践交织的成长路径，让我逐渐从单一内容创作者转向多维度的 AIGC 内容创新者。未来，我希望成为 AIGC 时代的故事工程师，用技术拓展叙事边界，用内容连接用户情绪，用系统化能力提升传播效率，让优质内容实现更精准、更高效、更具想象力的表达与抵达。
+              </p>
+            </div>
+            <div class="cover-actions">
+              <a class="button" href="index.html">主作品集</a>
+            </div>
+          </div>
+          <div class="collage reveal">
+            <div class="cover-gif-shell">
+              <img src="assets/portfolio/echoes-showcase-web.gif" alt="Echoes AI 产品动态展示" />
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <section class="page grain" id="product" data-page="02">
+        <div class="page-inner">
+          <div class="page-head">
+            <div>Product Ability <small>AI 陪伴产品 / App 原型 / 用户路径</small></div>
+            <div class="portfolio-mark">Portfolio</div>
+          </div>
+          <div class="page-number scribble">1</div>
+          <div class="section-title reveal">
+            <h2>MirrorPath AI 自我成长 App</h2>
+            <p>围绕长期自我叙事、情绪识别、人格画像和行动反馈，做成一个可演示的 AI 陪伴产品原型。</p>
+          </div>
+          <div class="product-layout">
+            <div class="phone-row reveal">
+              <div class="phone-shot featured" data-label="01 首页：入口与核心模块">
+                <img src="assets/portfolio/mirrorpath-app-home.png" alt="MirrorPath 首页" />
+              </div>
+              <div class="phone-shot" data-label="02 日记：长期记忆输入">
+                <img src="assets/portfolio/mirrorpath-app-diary-screen.png" alt="MirrorPath 日记映照" />
+              </div>
+              <div class="phone-shot" data-label="03 路径：相似案例匹配">
+                <img src="assets/portfolio/mirrorpath-app-path.png" alt="MirrorPath 路径发现" />
+              </div>
+              <div class="phone-shot" data-label="04 导师：陪伴式反馈">
+                <img src="assets/portfolio/mirrorpath-app-mentor.png" alt="MirrorPath 导师对话" />
+              </div>
+            </div>
+            <div class="evidence reveal">
+              <h3>从“我需要被理解”到“产品如何长期记住我”。</h3>
+              <p>
+                这个项目是我把求职方向转向 AI Agent 产品经理的核心证据。不是只做一套 UI，而是拆出输入入口、记忆机制、人格画像、导师对话、安全表达和下一步行动建议。
+              </p>
+              <div class="proof-list">
+                <div><strong>01</strong><span>日记输入沉淀长期记忆，减少一次性聊天产品的断裂感。</span></div>
+                <div><strong>02</strong><span>日记页把情绪、事件、偏好和阶段状态沉淀成可分析输入。</span></div>
+                <div><strong>03</strong><span>路径页把用户困境匹配到相似案例，形成可继续探索的方向。</span></div>
+                <div><strong>04</strong><span>官网和作品集 GIF 让招聘方在几十秒内理解产品价值和交付能力。</span></div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <section class="page grain" id="vibe" data-page="03">
+        <div class="page-inner">
+          <div class="page-head">
+            <div>Vibe Coding <small>动态前端 / 原型速度 / 可演示产品</small></div>
+            <div class="portfolio-mark">Portfolio</div>
+          </div>
+          <div class="page-number scribble">2</div>
+          <div class="motion-grid">
+            <div class="demo-frame reveal">
+              <img class="full-gif" src="assets/portfolio/vibe-coding-parallel-demo.gif" alt="Vibe Coding Parallel 动效" />
+              <div class="scanline"></div>
+            </div>
+            <div class="evidence reveal">
+              <div class="section-title" style="margin-top: 0">
+                <h2>把想法快速变成可看的东西</h2>
+                <p>这个页面本身也是案例：我用 Codex / Claude Code，把参考风格、APP UI、网站截图、视频动效和个人叙事合并成一个互动作品集。</p>
+              </div>
+              <div class="code-notes">
+                <div class="note-card">
+                  <strong>Prompt → Prototype</strong>
+                  <p>把“想要的感觉”拆成布局、素材、动效、交互和可验证输出。</p>
+                </div>
+                <div class="note-card">
+                  <strong>Motion as Evidence</strong>
+                  <p>用 GIF 和滚动动效展示产品原型，而不是只给静态截图。</p>
+                </div>
+                <div class="note-card">
+                  <strong>Front-end Taste</strong>
+                  <p>参考作品集 deck 的白纸、留白、页码、手写线条，避免模板感。</p>
+                </div>
+                <div class="note-card">
+                  <strong>PM Delivery</strong>
+                  <p>每个视觉模块都服务岗位叙事：产品、Agent、增长和系统化。</p>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <section class="page grain" id="growth" data-page="04">
+        <div class="page-inner">
+          <div class="page-head">
+            <div>Operation Ability <small>内容增长 / 创作者运营 / 数据复盘</small></div>
+            <div class="portfolio-mark">Portfolio</div>
+          </div>
+          <div class="page-number scribble">3</div>
+          <div class="gallery-layout">
+            <div class="copy-block reveal">
+              <div>
+                <h3>把内容运营转译成产品增长能力</h3>
+                <p>
+                  我做过账号定位、选题策划、脚本生产、投放、复盘和创作者赋能。对产品经理岗位来说，这些不是“内容杂活”，而是冷启动、供给侧质量控制和用户反馈循环。
+                </p>
+              </div>
+              <div>
+                <h3>可量化结果</h3>
+                <p>80+ 条短视频全流程，爆款率从 15% 提升至 40%；品牌合作内容总播放破千万；AI 文案从 2 小时压缩到 15 分钟。</p>
+              </div>
+              <div>
+                <h3>创作者生态</h3>
+                <p>将个人 AI 导演工作流拆成标准模块，形成提示词结构库、抽帧指南和 AIGC 短剧品控 SOP，社区活跃度提升 35%。</p>
+              </div>
+            </div>
+            <div class="poster-grid reveal">
+              <article class="work-card wide-card">
+                <img class="work-poster" src="assets/portfolio/aigc-highlight-reel-poster.jpg" alt="AIGC 高光混剪 Showreel 封面" />
+                <video class="work-video" muted playsinline loop preload="metadata" poster="assets/portfolio/aigc-highlight-reel-poster.jpg">
+                  <source src="assets/portfolio/aigc-highlight-reel.mp4" type="video/mp4" />
+                </video>
+                <div class="caption">AIGC 高光混剪 Showreel</div>
+              </article>
+              <article class="work-card">
+                <img class="work-poster" src="assets/portfolio/brain-poster.jpg" alt="知识类短片封面" />
+                <video class="work-video" muted playsinline loop preload="metadata" poster="assets/portfolio/brain-poster.jpg">
+                  <source src="assets/portfolio/brain-preview.mp4" type="video/mp4" />
+                </video>
+                <div class="caption">知识类短片</div>
+              </article>
+              <article class="work-card">
+                <img class="work-poster" src="assets/portfolio/smart-poster.jpg" alt="财经内容 IP 封面" />
+                <video class="work-video" muted playsinline loop preload="metadata" poster="assets/portfolio/smart-poster.jpg">
+                  <source src="assets/portfolio/smart-preview.mp4" type="video/mp4" />
+                </video>
+                <div class="caption">财经内容 IP</div>
+              </article>
+              <article class="work-card">
+                <img class="work-poster" src="assets/portfolio/knowledge-poster.jpg" alt="知识穿越短片封面" />
+                <video class="work-video" muted playsinline loop preload="metadata" poster="assets/portfolio/knowledge-poster.jpg">
+                  <source src="assets/portfolio/knowledge-preview.mp4" type="video/mp4" />
+                </video>
+                <div class="caption">知识穿越短片</div>
+              </article>
+              <article class="work-card wide-card">
+                <img class="full-gif" src="assets/portfolio/hemo-product-demo-poster.jpg" alt="AI 产品官网展示封面" />
+                <div class="caption">AI App 官网展示 GIF</div>
+              </article>
+            </div>
+          </div>
+          <section class="director-showcase reveal" aria-labelledby="director-title">
+            <div class="director-intro">
+              <div class="director-kicker">Director Contact Sheets</div>
+              <h2 id="director-title">我如何导演 AI 视频</h2>
+              <p>
+                这些九宫格不是截图合集，而是每条成片的导演判断样本：我从开场钩子、主体推进、情绪转折到收束画面中各抽关键帧，展示我对分镜节奏、视觉连续性和 AI 画面品控的控制。
+              </p>
+              <div class="director-metrics" aria-label="AI 视频导演能力数据">
+                <div class="director-metric"><strong>18</strong><span>条成片拆解</span></div>
+                <div class="director-metric"><strong>162</strong><span>个关键画面选择</span></div>
+                <div class="director-metric"><strong>9</strong><span>帧呈现一条叙事线</span></div>
+              </div>
+              <div class="director-abilities">
+                <div><strong>分镜设计</strong><span>把抽象主题拆成可执行镜头</span></div>
+                <div><strong>节奏调度</strong><span>控制开场、推进、转折和收束</span></div>
+                <div><strong>画面品控</strong><span>筛掉失真画面，保留风格连续性</span></div>
+                <div><strong>商业转译</strong><span>把品牌、财经、知识内容变成可传播影像</span></div>
+              </div>
+            </div>
+            <div class="highlight-gallery director-gallery" aria-label="AI 视频导演 contact sheet">
+              <a class="highlight-card" href="assets/portfolio/highlight-sheets/01-ai-opening.jpg" data-no="01" data-title="AI 全年无休片头" data-meta="开场钩子 / 视觉符号 / 叙事收束" aria-label="查看 AI 全年无休片头导演九宫格">
+                <img decoding="async" src="assets/portfolio/highlight-sheets/01-ai-opening.jpg" alt="AI 全年无休片头 9 张导演关键帧" />
+              </a>
+              <a class="highlight-card" href="assets/portfolio/highlight-sheets/02-brand-frame-02.jpg" data-no="02" data-title="首尾帧案例 02" data-meta="品牌包装 / 首尾呼应 / 商业视觉" aria-label="查看首尾帧案例 02导演九宫格">
+                <img decoding="async" src="assets/portfolio/highlight-sheets/02-brand-frame-02.jpg" alt="首尾帧案例 02 9 张导演关键帧" />
+              </a>
+              <a class="highlight-card" href="assets/portfolio/highlight-sheets/03-brand-frame-01.jpg" data-no="03" data-title="首尾帧案例 01" data-meta="动效系统 / 信息递进 / 品牌记忆点" aria-label="查看首尾帧案例 01导演九宫格">
+                <img decoding="async" src="assets/portfolio/highlight-sheets/03-brand-frame-01.jpg" alt="首尾帧案例 01 9 张导演关键帧" />
+              </a>
+              <a class="highlight-card" href="assets/portfolio/highlight-sheets/04-ai-awakening.jpg" data-no="04" data-title="AI 觉醒：元界面出逃" data-meta="人物调度 / 冷色影调 / 情绪递进" aria-label="查看 AI 觉醒：元界面出逃导演九宫格">
+                <img decoding="async" src="assets/portfolio/highlight-sheets/04-ai-awakening.jpg" alt="AI 觉醒：元界面出逃 9 张导演关键帧" />
+              </a>
+              <a class="highlight-card" href="assets/portfolio/highlight-sheets/05-xunfei-earbuds.jpg" data-no="05" data-title="讯飞智能体耳机品牌视频" data-meta="产品场景 / 用户视角 / 功能转译" aria-label="查看讯飞智能体耳机品牌视频导演九宫格">
+                <img decoding="async" src="assets/portfolio/highlight-sheets/05-xunfei-earbuds.jpg" alt="讯飞智能体耳机品牌视频 9 张导演关键帧" />
+              </a>
+              <a class="highlight-card" href="assets/portfolio/highlight-sheets/06-smart-finance.jpg" data-no="06" data-title="聪明人财经内容" data-meta="财经 IP / 人物叙事 / 观点节奏" aria-label="查看聪明人财经内容导演九宫格">
+                <img decoding="async" src="assets/portfolio/highlight-sheets/06-smart-finance.jpg" alt="聪明人财经内容 9 张导演关键帧" />
+              </a>
+              <a class="highlight-card" href="assets/portfolio/highlight-sheets/07-simaqian-finance.jpg" data-no="07" data-title="司马迁赚钱公式" data-meta="历史概念 / 财经转译 / 镜头推进" aria-label="查看司马迁赚钱公式导演九宫格">
+                <img decoding="async" src="assets/portfolio/highlight-sheets/07-simaqian-finance.jpg" alt="司马迁赚钱公式 9 张导演关键帧" />
+              </a>
+              <a class="highlight-card" href="assets/portfolio/highlight-sheets/08-brain-short-video.jpg" data-no="08" data-title="大脑被短视频重新编程" data-meta="知识短片 / 概念可视化 / 强节奏" aria-label="查看大脑被短视频重新编程导演九宫格">
+                <img decoding="async" src="assets/portfolio/highlight-sheets/08-brain-short-video.jpg" alt="大脑被短视频重新编程 9 张导演关键帧" />
+              </a>
+              <a class="highlight-card" href="assets/portfolio/highlight-sheets/09-biology-visual.jpg" data-no="09" data-title="生物视觉短片" data-meta="科学视觉 / 画面隐喻 / 氛围控制" aria-label="查看生物视觉短片导演九宫格">
+                <img decoding="async" src="assets/portfolio/highlight-sheets/09-biology-visual.jpg" alt="生物视觉短片 9 张导演关键帧" />
+              </a>
+              <a class="highlight-card" href="assets/portfolio/highlight-sheets/10-knowledge-time-travel.jpg" data-no="10" data-title="知识穿越短片" data-meta="时间叙事 / 场景转换 / 信息密度" aria-label="查看知识穿越短片导演九宫格">
+                <img decoding="async" src="assets/portfolio/highlight-sheets/10-knowledge-time-travel.jpg" alt="知识穿越短片 9 张导演关键帧" />
+              </a>
+              <a class="highlight-card" href="assets/portfolio/highlight-sheets/11-beyond-letters.jpg" data-no="11" data-title="字母之外" data-meta="抽象主题 / 视觉诗性 / 风格探索" aria-label="查看字母之外导演九宫格">
+                <img decoding="async" src="assets/portfolio/highlight-sheets/11-beyond-letters.jpg" alt="字母之外 9 张导演关键帧" />
+              </a>
+              <a class="highlight-card" href="assets/portfolio/highlight-sheets/12-ink-style-test.jpg" data-no="12" data-title="山水风格样片" data-meta="风格测试 / 东方视觉 / 镜头留白" aria-label="查看山水风格样片导演九宫格">
+                <img decoding="async" src="assets/portfolio/highlight-sheets/12-ink-style-test.jpg" alt="山水风格样片 9 张导演关键帧" />
+              </a>
+              <a class="highlight-card" href="assets/portfolio/highlight-sheets/13-product-concept-01.jpg" data-no="13" data-title="产品概念成片 01" data-meta="产品概念 / 场景表达 / 用户想象" aria-label="查看产品概念成片 01导演九宫格">
+                <img decoding="async" src="assets/portfolio/highlight-sheets/13-product-concept-01.jpg" alt="产品概念成片 01 9 张导演关键帧" />
+              </a>
+              <a class="highlight-card" href="assets/portfolio/highlight-sheets/14-product-concept-02.jpg" data-no="14" data-title="产品概念成片 02" data-meta="AI 工作流 / 交互想象 / 叙事包装" aria-label="查看产品概念成片 02导演九宫格">
+                <img decoding="async" src="assets/portfolio/highlight-sheets/14-product-concept-02.jpg" alt="产品概念成片 02 9 张导演关键帧" />
+              </a>
+              <a class="highlight-card" href="assets/portfolio/highlight-sheets/15-mothers-day.jpg" data-no="15" data-title="母亲节快乐" data-meta="情绪短片 / 节日节点 / 生活质感" aria-label="查看母亲节快乐导演九宫格">
+                <img decoding="async" src="assets/portfolio/highlight-sheets/15-mothers-day.jpg" alt="母亲节快乐 9 张导演关键帧" />
+              </a>
+              <a class="highlight-card" href="assets/portfolio/highlight-sheets/16-mothers-day-02.jpg" data-no="16" data-title="母亲节快乐 02" data-meta="移动端叙事 / 情感递进 / 真实感" aria-label="查看母亲节快乐 02导演九宫格">
+                <img decoding="async" src="assets/portfolio/highlight-sheets/16-mothers-day-02.jpg" alt="母亲节快乐 02 9 张导演关键帧" />
+              </a>
+              <a class="highlight-card" href="assets/portfolio/highlight-sheets/17-luoxiang-portrait.jpg" data-no="17" data-title="罗翔：向上的路人物短片" data-meta="人物短片 / 情绪弧线 / 访谈质感" aria-label="查看罗翔：向上的路人物短片导演九宫格">
+                <img decoding="async" src="assets/portfolio/highlight-sheets/17-luoxiang-portrait.jpg" alt="罗翔：向上的路人物短片 9 张导演关键帧" />
+              </a>
+              <a class="highlight-card" href="assets/portfolio/highlight-sheets/18-daily-footage.jpg" data-no="18" data-title="日常影像素材" data-meta="生活观察 / 镜头练习 / 素材判断" aria-label="查看日常影像素材导演九宫格">
+                <img decoding="async" src="assets/portfolio/highlight-sheets/18-daily-footage.jpg" alt="日常影像素材 9 张导演关键帧" />
+              </a>
+            </div>
+          </section>
+        </div>
+      </section>
+
+      <section class="page grain" id="system" data-page="05">
+        <div class="page-inner">
+          <div class="page-head">
+            <div>Planning Ability <small>策略拆解 / AI 工作流 / 供给系统</small></div>
+            <div class="portfolio-mark">Portfolio</div>
+          </div>
+          <div class="page-number scribble">4</div>
+          <div class="section-title reveal">
+            <h2>把创意生产做成系统</h2>
+            <p>我适合产品经理岗位的另一层原因，是我已经在内容业务里反复做过“机制设计”：把人的审美、判断和执行拆成可复用流程。</p>
+          </div>
+          <div class="system-map reveal">
+            <div class="map-line">
+              <div class="map-node">
+                <h3>用户与场景</h3>
+                <p>判断谁在什么时刻需要什么内容、工具或陪伴。</p>
+              </div>
+              <div class="map-node">
+                <h3>结构与规则</h3>
+                <p>把抽象需求拆成可执行的信息架构、脚本模板和提示词规则。</p>
+              </div>
+              <div class="map-node">
+                <h3>AI 生成</h3>
+                <p>用模型、节点和多 Agent 协作提高素材吞吐量。</p>
+              </div>
+              <div class="map-node">
+                <h3>人工品控</h3>
+                <p>保留人的洞察、审美、风险判断和最终决策。</p>
+              </div>
+              <div class="map-node">
+                <h3>反馈迭代</h3>
+                <p>用数据、用户反馈和复盘结果更新产品或内容机制。</p>
+              </div>
+            </div>
+          </div>
+          <div class="poster-grid reveal" style="margin-top: 44px">
+            <article class="work-card">
+              <img class="work-poster" src="assets/portfolio/xunfei-poster.jpg" alt="讯飞智能体耳机封面" />
+              <video class="work-video" muted playsinline loop preload="metadata" poster="assets/portfolio/xunfei-poster.jpg">
+                <source src="assets/portfolio/xunfei-preview.mp4" type="video/mp4" />
+              </video>
+              <div class="caption">讯飞智能体耳机</div>
+            </article>
+            <article class="work-card">
+              <img class="work-poster" src="assets/portfolio/simaqian-poster.jpg" alt="司马迁财经短片封面" />
+              <video class="work-video" muted playsinline loop preload="metadata" poster="assets/portfolio/simaqian-poster.jpg">
+                <source src="assets/portfolio/simaqian-preview.mp4" type="video/mp4" />
+              </video>
+              <div class="caption">司马迁财经短片</div>
+            </article>
+            <article class="work-card">
+              <img class="work-poster" src="assets/portfolio/flova-poster.jpg" alt="人物短片封面" />
+              <video class="work-video" muted playsinline loop preload="metadata" poster="assets/portfolio/flova-poster.jpg">
+                <source src="assets/portfolio/flova-preview.mp4" type="video/mp4" />
+              </video>
+              <div class="caption">人物短片</div>
+            </article>
+            <article class="work-card">
+              <img class="work-poster" src="assets/portfolio/letters-poster.jpg" alt="视觉叙事短片封面" />
+              <video class="work-video" muted playsinline loop preload="metadata" poster="assets/portfolio/letters-poster.jpg">
+                <source src="assets/portfolio/letters-preview.mp4" type="video/mp4" />
+              </video>
+              <div class="caption">视觉叙事短片</div>
+            </article>
+          </div>
+        </div>
+      </section>
+
+      <section class="page grain" id="creation" data-page="06">
+        <div class="page-inner">
+          <div class="page-head">
+            <div>Positioning Map <small>岗位关键词 / 产品化能力 / 增长系统</small></div>
+            <div class="portfolio-mark">Portfolio</div>
+          </div>
+          <div class="page-number scribble">5</div>
+          <div class="section-title reveal">
+            <h2>AI内容产品运营的岗位坐标</h2>
+            <p>最后不再堆作品截图，而是把我想投向的能力关键词收束成一个清晰的产品与增长轨道。</p>
+          </div>
+          <div class="keyword-orbit reveal" aria-label="求职关键词轨道">
+            <div class="orbit-core">
+              <span>CAREER VECTOR</span>
+              <strong class="scribble">AI内容产品运营<br />AIGC内容策略<br />AI工作流设计<br />AI导演</strong>
+              <p>内容理解 × 产品设计 × 商业转化 × AI 工具链</p>
+            </div>
+            <ul class="orbit-keywords">
+              <li>AI产品经理</li>
+              <li>内容产品</li>
+              <li>金融科技产品</li>
+              <li>增长策略</li>
+              <li>AI工具化内容工作流</li>
+              <li>投研内容产品化</li>
+              <li>B端产品运营策略</li>
+            </ul>
+          </div>
+          <div class="end-note reveal">
+            <h2 class="scribble">Thanks for watching</h2>
+            <p>
+              我现在的求职叙事可以收束成一句话：把内容判断、AI 工具链和商业目标接在一起，做能被用户理解、被团队复用、被业务验证的产品化内容系统。
+            </p>
+          </div>
+        </div>
+      </section>
+    </main>
+
+    <script>
+      const root = document.documentElement;
+      const pages = [...document.querySelectorAll(".page")];
+      const dots = [...document.querySelectorAll(".side-index a")];
+      const navLinks = [...document.querySelectorAll(".sitebar a[href^='#']")];
+      const currentPage = document.getElementById("currentPage");
+      const progressBar = document.getElementById("progressBar");
+
+      document.addEventListener("pointermove", (event) => {
+        const x = event.clientX / window.innerWidth - 0.5;
+        const y = event.clientY / window.innerHeight - 0.5;
+        root.style.setProperty("--mx", x.toFixed(3));
+        root.style.setProperty("--my", y.toFixed(3));
+      });
+
+      const revealObserver = new IntersectionObserver(
+        (entries) => {
+          entries.forEach((entry) => {
+            if (entry.isIntersecting) {
+              entry.target.classList.add("in");
+              revealObserver.unobserve(entry.target);
+            }
+          });
+        },
+        { threshold: 0.16 },
+      );
+      document.querySelectorAll(".reveal").forEach((el) => revealObserver.observe(el));
+
+      const pageObserver = new IntersectionObserver(
+        (entries) => {
+          const visible = entries
+            .filter((entry) => entry.isIntersecting)
+            .sort((a, b) => b.intersectionRatio - a.intersectionRatio)[0];
+          if (!visible) return;
+          const page = visible.target.dataset.page;
+          currentPage.textContent = page;
+          dots.forEach((dot) => dot.classList.toggle("active", dot.getAttribute("href") === `#${visible.target.id}`));
+          navLinks.forEach((link) =>
+            link.classList.toggle("active", link.getAttribute("href") === `#${visible.target.id}`),
+          );
+        },
+        { threshold: [0.28, 0.45, 0.62] },
+      );
+      pages.forEach((page) => pageObserver.observe(page));
+
+      const updateProgress = () => {
+        const max = document.documentElement.scrollHeight - window.innerHeight;
+        const value = max > 0 ? window.scrollY / max : 0;
+        progressBar.style.width = `${Math.min(1, Math.max(0, value)) * 100}%`;
+      };
+      document.addEventListener("scroll", updateProgress, { passive: true });
+      updateProgress();
+
+      document.querySelectorAll(".work-video").forEach((video) => {
+        const card = video.closest(".work-card");
+        video.addEventListener("pointerenter", () => {
+          card?.classList.add("is-playing");
+          video.play().catch(() => card?.classList.remove("is-playing"));
+        });
+        video.addEventListener("pointerleave", () => {
+          video.pause();
+          video.currentTime = 0;
+          card?.classList.remove("is-playing");
+        });
+      });
+
+      document.querySelectorAll(".work-card, .note-card, .phone-shot").forEach((card) => {
+        card.addEventListener("pointermove", (event) => {
+          const rect = card.getBoundingClientRect();
+          const x = (event.clientX - rect.left) / rect.width - 0.5;
+          const y = (event.clientY - rect.top) / rect.height - 0.5;
+          card.style.transform = `perspective(900px) rotateX(${(-y * 4).toFixed(2)}deg) rotateY(${(x * 5).toFixed(2)}deg) translateY(-2px)`;
+        });
+        card.addEventListener("pointerleave", () => {
+          card.style.transform = "";
+        });
+      });
+    </script>
+  </body>
+</html>
